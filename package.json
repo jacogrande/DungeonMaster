@@ -4,7 +4,8 @@
   "description": "A dungeon generator for d&d",
   "main": "build.js",
   "scripts": {
-    "test": "build.js"
+    "test": "build.js",
+    "start": "node index.js"
   },
   "repository": {
     "type": "git",
