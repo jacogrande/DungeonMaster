@@ -1,0 +1,109 @@
+<html>
+	<head>
+		<title>Dungeon Generator</title>
+    <style>
+
+      #controlPanel{
+        position: absolute;
+        left:650px;
+        top:10px;
+        width:600px;
+        height:300px;
+        border:1px solid black;
+      }
+
+      #console{
+        position: absolute;
+        top:0%;
+        left:5%;
+        width:90%;
+        height:90%;
+        overflow: scroll;
+        font-size: 14px;
+      }
+
+      #commandLine{
+        position: absolute;
+        bottom:0%;
+        left:0%;
+        width:100%;
+        height:10%;
+      }
+
+      #characterPanel{
+        position: absolute;
+        top:310px;
+        left:650px;
+        height:295px;
+        width:600px;
+        /*border:1px solid black;*/
+      }
+
+    </style>
+	</head>
+	<body>
+		<canvas id = 'dungeonSpace' width = '600' height = '600' style = 'background:#fff;'></canvas>
+    <canvas id = 'gameSpace' width = '600' height = '600' style = 'position:absolute; left:9px;'></canvas>
+		<p>1 square = 10 ft</p>
+
+    <div id = 'controlPanel'>
+      <div id = 'console'></div>
+      <input type = 'text' placeholder='message...' id = 'commandLine' />
+    </div>
+
+    <div id = 'characterPanel'>
+      <p id = 'hpOuter'>HP: <span id = 'hpInner'></span></div>
+    </div>
+
+
+    <script>
+      var mapHeight = 30;
+      var mapWidth = 30;
+      var scale = 50;
+      var scaledHeight = 600/scale;
+      var gameCanvas = document.getElementById("gameSpace");
+      var gCanvas = gameCanvas.getContext("2d");
+
+      document.getElementById("commandLine").addEventListener("click",function(){
+        keyLock = true;
+      });
+
+      document.getElementById("gameSpace").onclick = () => {
+        keyLock = false;
+      }
+
+      document.getElementById("characterPanel").onclick = () => {
+        keyLock = false;
+      }
+
+    </script>
+
+    <script type="text/javascript" src = '../jsUtil/console.js'></script>
+    <script type="text/javascript" src = '/dungeonData.js'></script>
+
+    <script type="text/javascript" src = '../jsUtil/chests.js'></script>
+    <script type="text/javascript" src = '../jsUtil/sprites.js'></script>
+    <script type="text/javascript" src = '/mainGame.js'></script>
+
+    <script type="text/javascript" src = '../jsUtil/checks.js'></script>
+    <script type="text/javascript" src = '../jsUtil/validity.js'></script>
+    <script type="text/javascript" src = '../jsUtil/passageway.js'></script>
+    <script type="text/javascript" src = '../jsUtil/traps.js'></script>
+    <script type="text/javascript" src = '../jsUtil/util.js'></script>
+    <script type="text/javascript" src = '../jsUtil/room.js'></script>
+		<script type="text/javascript" src = '../finalGen.js'></script>
+    <script type="text/javascript" src = '../jsUtil/doors.js'></script>
+
+    <script type="text/javascript" src = '../jsUtil/keyboard.js'></script>
+    <script type="text/javascript" src = '../jsUtil/movement.js'></script>
+    <script type="text/javascript" src = '../jsUtil/interactions.js'></script>
+
+    <script type="text/javascript" src = '../jsData/parser.js'></script>
+
+
+    <script>
+      startDungeon();
+    </script>
+
+	</body>
+</html>

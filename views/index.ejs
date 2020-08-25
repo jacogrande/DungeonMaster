@@ -1,0 +1,22 @@
+<html>
+  <head>
+    <title>Dungeon Generator</title>
+  </head>
+  <body>
+
+    <% if(username != null){ %>
+      <a href='/profile'>Profile</a><br>
+      <a href='/createDungeon'>Create Dungeon</a><br>
+      <a href='/game'>Game</a><br>
+    <%} else { %>
+      <a href="/register">Register</a><br>
+      <a href='/login'>Login</a><br>
+    <% } %>
+
+    <p> <% if(username != null) { %>
+      <%= username %>
+        <% } %>
+    </p>
+
+  </body>
+</html>

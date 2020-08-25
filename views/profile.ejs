@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Profile</title>
+  </head>
+  <body>
+    Welcome, <%= user.username %><br>
+    <a href="/">Home</a>
+    <div>
+      Dungeons: <br>
+      <% for(var i = 0; i < dungeons.length; i++){ %>
+        <a href = <%= "/game?id=" + dungeons[i]._id %> >Dungeon <%= i %> </a>
+      <% } %>
+      <br>
+      <a href="/game">Create a new dungeon</a>
+    </div><br>
+    <div>
+      Characters: <br>
+      <% for(var i = 0; i < characters.length; i++){ %>
+        <a href = <%= "/displayCharacter?id=" + characters[i]._id %> > <%= characters[i].name  %> </a>
+      <% } %>
+
+      <br>
+      <a href = "/createCharacter" /> Create a New Character </a>
+
+  </body>
+</html>

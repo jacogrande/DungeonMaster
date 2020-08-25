@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Character Creation</title>
+    <style media="screen">
+      .formItem{
+        position: relative;
+        left:33%;
+        text-align: center;
+        width:33%;
+        height:15%;
+        padding-bottom: 1%;
+        border:1px solid black;
+        margin-bottom: 2%;
+        background: white;
+      }
+      body{
+        background: #eee;
+      }
+
+      #features{
+        position: fixed;
+        top:1%;
+        left:1%;
+        width:31%;
+        height:98%;
+        background: white;
+        border: 1px solid black;
+        text-align: center;
+        overflow: scroll;
+      }
+    </style>
+  </head>
+  <body>
+    <div id = 'features'>
+      <h3>Features:</h3>
+      <div id = 'humanFeatures'>
+        <ul>
+          <p>- Stat Improvements - </p>
+          <% for(let i = 0; i < races[0].improvements.length; i++) { %>
+            <li> <%= races[0].improvements[i][0] %>: <%= races[0].improvements[i][1] %> </li>
+          <% } %>
+          <p> - Traits - </p>
+          <% for(let i = 0; i < races[0].features.length; i++) { %>
+            <li> <%= races[0].features[i] %></li>
+          <% } %>
+          <p> - Proficiencies - </p>
+          <% for(let i = 0; i < races[0].proficiencies.length; i++) { %>
+            <li> <%= races[0].proficiencies[i] %></li>
+          <% } %>
+          <p> - Languages - </p>
+          <% for(let i = 0; i < races[0].languages.length; i++) { %>
+            <li> <%= races[0].languages[i] %></li>
+          <% } %>
+          <p> - Speed: <%= races[0].speed %> -</p>
+        </ul>
+      </div>
+      <div id = 'elfFeatures' style = 'display:none;'>
+        <ul>
+          <p>- Stat Improvements - </p>
+          <% for(let i = 0; i < races[1].improvements.length; i++) { %>
+            <li> <%= races[1].improvements[i][0] %>: <%= races[1].improvements[i][1] %> </li>
+          <% } %>
+          <p> - Traits - </p>
+          <% for(let i = 0; i < races[1].features.length; i++) { %>
+            <li> <%= races[1].features[i] %></li>
+          <% } %>
+          <p> - Proficiencies - </p>
+          <% for(let i = 0; i < races[1].proficiencies.length; i++) { %>
+            <li> <%= races[1].proficiencies[i] %></li>
+          <% } %>
+          <p> - Languages - </p>
+          <% for(let i = 0; i < races[1].languages.length; i++) { %>
+            <li> <%= races[1].languages[i] %></li>
+          <% } %>
+          <p> - Speed: <%= races[1].speed %> -</p>
+        </ul>
+      </div>
+      <div id = 'dwarfFeatures' style = 'display:none;'>
+        <ul>
+          <p>- Stat Improvements - </p>
+          <% for(let i = 0; i < races[2].improvements.length; i++) { %>
+            <li> <%= races[2].improvements[i][0] %>: <%= races[2].improvements[i][1] %> </li>
+          <% } %>
+          <p> - Traits - </p>
+          <% for(let i = 0; i < races[2].features.length; i++) { %>
+            <li> <%= races[2].features[i] %></li>
+          <% } %>
+          <p> - Proficiencies - </p>
+          <% for(let i = 0; i < races[2].proficiencies.length; i++) { %>
+            <li> <%= races[2].proficiencies[i] %></li>
+          <% } %>
+          <p> - Languages - </p>
+          <% for(let i = 0; i < races[2].languages.length; i++) { %>
+            <li> <%= races[2].languages[i] %></li>
+          <% } %>
+          <p> - Speed: <%= races[2].speed %> -</p>
+        </ul>
+      </div>
+    </div>
+    <form action="/createCharacter" method="post">
+      <div class = "formItem">
+        <p> Enter your character's name: </p>
+        <input type="text" name="name" />
+      </div>
+      <div class = "formItem">
+        <p> Choose a Race: </p>
+        <select name="race" id = 'raceSelector'>
+          <option value="human">Human</option>
+          <option value="elf">Elf</option>
+          <option value="dwarf">Dwarf</option>
+        </select>
+      </div>
+      <div class = "formItem">
+        <p> Choose a class: </p>
+        <select name="class">
+          <option value="fighter">Fighter</option>
+          <option value="wizard">Wizard</option>
+          <option value="rogue">Rogue</option>
+        </select>
+      </div>
+      <div class = "formItem">
+        <p> Enter your character's alignment: </p>
+        <input type="text" name="alignment" />
+      </div>
+      <div class = "formItem">
+        <p> Choose 2 proficiencies: </p>
+        <select name="class">
+          <option value="perception">Fighter</option>
+          <option value="sleight_of_hand">Wizard</option>
+          <option value="">Rogue</option>
+        </select>
+      </div>
+    </form>
+
+    <script>
+      document.getElementById("raceSelector").addEventListener("change",(e)=>{
+        let choice = e.srcElement.value;
+        document.getElementById("humanFeatures").style.display = "none";
+        document.getElementById("elfFeatures").style.display = "none";
+        document.getElementById("dwarfFeatures").style.display = "none";
+        switch(choice){
+          case "human":
+            console.log("yo");
+            document.getElementById("humanFeatures").style.display = "block";
+            break;
+          case "elf":
+            document.getElementById("elfFeatures").style.display = "block";
+            break;
+          case "dwarf":
+            document.getElementById("dwarfFeatures").style.display = "block";
+            break;
+        }
+      });
+    </script>
+
+  </body>
+</html>

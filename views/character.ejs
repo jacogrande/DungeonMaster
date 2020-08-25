@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title><%= character.name %>'s Profile</title>
+    <style media = "screen">
+      #stats{
+        position: absolute;
+        right:55%;
+        top:1%;
+        width:10%;
+        height:25%;
+        border: 1px solid black;
+      }
+      #proficiencies{
+        position: absolute;
+        right:55%;
+        top:27%;
+        width:10%;
+        padding-bottom: 1%;
+        border: 1px solid black;
+      }
+      #equipment{
+        position: absolute;
+        right:40%;
+        top:1%;
+        width:10%;
+        padding-bottom: 1%;
+        border: 1px solid black;
+      }
+      #features{
+        position: absolute;
+        right:40%;
+        top:50%;
+        width:10%;
+        padding-bottom: 1%;
+        border: 1px solid black;
+      }
+      #attacks{
+        border: 1px solid black;
+        width:25%;
+        height:50%;
+        padding-bottom: 10%;
+      }
+      #spells{
+        position: absolute;
+        right:25%;
+        top:1%;
+        width:10%;
+        padding-bottom: 1%;
+        border: 1px solid black;
+      }
+    </style>
+  </head>
+  <body>
+    <h2>Name: <%= character.name %> / Level: <%= character.level %> </h2>
+    <p>Class: <%= character.class %> / Alignment: <%= character.alignment %> / Speed: <%= character.speed %> <p>
+    <p>Race: <%= character.race %> / XP: <%= character.xp %> / Proficiency Bonus: <%= character.proficiency_bonus %></p>
+    <ul id = 'stats'>
+      <p style = 'margin-left:-15px'><strong>Stats:</strong></p>
+      <li>Strength: <%= character.stats.strength %></li>
+      <li>Dexterity: <%= character.stats.dexterity %></li>
+      <li>Constitution: <%= character.stats.constitution %></li>
+      <li>Intelligence: <%= character.stats.intelligence %></li>
+      <li>Wisdom: <%= character.stats.wisdom %></li>
+      <li>Charisma: <%= character.stats.charisma %></li>
+    </ul>
+
+    <ul id = 'proficiencies'>
+      <p style = 'margin-left:-15px'><strong>Proficiencies:</strong></p>
+      <% for(var i = 0; i < character.proficiencies.length; i++){ %>
+        <li> <%= character.proficiencies[i] %> </li>
+      <% } %>
+    </ul>
+
+    <ul id = 'equipment'>
+      <p style = 'margin-left:-15px'><strong>Equipment:</strong></p>
+      <% for(var i = 0; i < character.equipment.length; i++){ %>
+        <li> <%= character.equipment[i] %> </li>
+      <% } %>
+    </ul>
+
+    <ul id = 'features'>
+      <p style = 'margin-left:-15px'><strong>Features:</strong></p>
+      <% for(var i = 0; i < character.features.length; i++){ %>
+        <li> <%= character.features[i] %> </li>
+      <% } %>
+    </ul>
+
+    <ul id = 'attacks'>
+      <p style = 'margin-left:-15px'><strong>Attacks:</strong></p>
+      <% for(var i = 0; i < character.attacks.length; i++){ %>
+        <li> <%= character.attacks[i] %> </li>
+      <% } %>
+    </ul>
+
+    <ul id = 'spells'>
+      <p style = 'margin-left:-15px'><strong>Spells: </strong></p>
+      <% for(var i = 0; i < character.spells.length; i++){ %>
+        <li> <%= character.spells[i] %> </li>
+      <% } %>
+    </ul>
+
+    <a href="/#">Delete Character</a>
+
+  </body>
+</html>

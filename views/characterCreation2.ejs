@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Create Character</title>
+  </head>
+  <body>
+    <form action="createCharacter" method="post" id = 'creationForm'>
+      Character Name: <input type="text" name="name" /><br><br>
+      Level: <input type = 'number' name = 'level' id = 'level'  value = '1'/>
+      <select name="race" id="raceSelector">
+        <option value="Human">Human</option>
+        <option value="Elf">Elf</option>
+        <option value="Dwarf">Dwarf</option>
+      </select>
+      <select name="class" id="classSelector">
+        <option value="fighter">Fighter</option>
+        <<option value="wizard">Wizard</option>
+      </select>
+      <br><br>
+      Alignment: <input type = 'text' name = "alignment"/>
+      <br><br>
+      Race Features: <br><br>
+      Improvements: <br>
+      <ul id = 'raceImprovements'></ul> <br>
+      Speed: <span id = 'speed'></span> <br>
+      Languages: <span id = 'languages'></span><br><br>
+      Traits: <br>
+      <ul id = 'raceTraits'></ul><br>
+      Proficiencies:
+      <ul id = 'raceProficiencies'></ul>
+      <br><br>
+      Class Features: <br><br>
+      Proficiencies:
+      <select id = 'first_proficiency' name = 'first_proficiency'></select>
+      <select id = 'second_proficiency' name = 'second_proficiency'></select><br><br>
+      <p id = 'spellLabel' style = 'display:none'>Spells<br><br></p>
+      <div id = 'cantrips' style = 'display:none'>Cantrips:<br></div>
+      <div id = 'firstLevel' style = 'display:none'>First Level:<br></div>
+      <div id = 'secondLevel' style = 'display:none'>Level 2 (0):<br></div>
+      <div id = 'thirdLevel' style = 'display:none'>Level 3 (0):<br></div>
+      <input type = 'text' name = 'spells' id = 'spellsSecret'/>
+      <div id = 'classBased'>
+
+      </div><br><br>
+      <div class = 'stats'>
+        Strength: <input type = 'number' name = 'strength' value = '10'/>
+        Dexterity: <input type = 'number' name = 'dexterity' value = '10'/>
+        Constitution: <input type = 'number' name = 'constitution' value = '10' />
+        Intelligence: <input type = 'number' name = 'intelligence' value = '10'/>
+        Wisdom: <input type = 'number' name = 'wisdom' value = '10'/>
+        Charisma: <input type = 'number' name = 'charisma' value = '10'/>
+      </div>
+      <input type = 'submit' value = 'Create Character'/>
+    </form>
+    <script type="text/javascript" src = './jsData/parser.js'></script>
+    <script>
+      let creationData;
+      characterCreationParser.getFile((data)=>{
+        creationData = JSON.parse(data);
+        pickRace("Human");
+        pickClass("fighter");
+      });
+
+      let level;
+      let characterClass;
+      let characterRace;
+
+      function pickRace(race){
+        for(let i = 0; i < creationData.races.length; i++){
+          if(creationData.races[i].name == race){
+            characterRace = creationData.races[i];
+            createRaceBuffs();
+            break;
+          }
+        }
+      }
+
+      function pickClass(newClass){
+        level = document.getElementById("level").value;
+        creationData.classes.forEach((element)=>{
+          if(element.name == newClass){
+            // console.log(element);
+            characterClass = element;
+            newClass = element;
+            createProficiencySelectors();
+            createSpellSelectors();
+            createClassBuffs();
+          }
+        });
+
+      }
+
+      function createRaceBuffs(){
+        let improvements = document.getElementById("raceImprovements");
+        improvements.innerHTML = "";
+        let listItem;
+        characterRace.improvements.forEach((improvement) => {
+          listItem = document.createElement("li");
+          listItem.innerHTML = improvement[0] + ": " + improvement[1];
+          improvements.appendChild(listItem);
+        });
+        document.getElementById("speed").innerHTML = characterRace.speed;
+        let languages = document.getElementById("languages");
+        languages.innerHTML = "";
+        characterRace.languages.forEach((language) => {
+          if(language != "Any"){
+            languages.innerHTML += language;
+          }
+        });
+
+        let traits = document.getElementById("raceTraits");
+        traits.innerHTML = "";
+        characterRace.features.forEach((feature) => {
+          traits.innerHTML += "<li>" + feature + "</li>"
+        });
+
+        let proficiencies = document.getElementById("raceProficiencies");
+        proficiencies.innerHTML = "";
+        characterRace.proficiencies.forEach((feature) => {
+          proficiencies.innerHTML += "<li>" + feature + "</li>"
+        });
+
+      }
+
+      function createProficiencySelectors(){
+        let selector1 = document.getElementById("first_proficiency");
+        let selector2 = document.getElementById("second_proficiency");
+        let option;
+        let selectors = [selector1, selector2];
+        selectors.forEach((selector)=>{
+          selector.innerHTML = "";
+          characterClass.skill_choice.options.forEach((element)=>{
+            option = document.createElement("option");
+            option.value = element;
+            option.innerHTML = element;
+            selector.appendChild(option);
+          });
+        });
+      }
+
+
+      let allSpells = [];
+      function createSpellSelectors(){
+        var cantripSpace = document.getElementById("cantrips");
+        var firstLevelSpace = document.getElementById("firstLevel");
+        let spaces = [cantripSpace, firstLevelSpace, document.getElementById("secondLevel"), document.getElementById("thirdLevel")];
+
+        if(characterClass.name == "wizard"){
+          spaces.forEach((element)=>{
+            element.style.display = "block";
+          });
+          document.getElementById("spellLabel").style.display = "block";
+
+          let selector;
+          let option;
+          let spells = characterClass.spells[level-1];
+          for(let i = 0; i < spells.length; i++){
+            spaces[i].innerHTML = "Level " + i + " (" + spells[i] + "):";
+            for(let a = 0; a < spells[i]; a++){
+              selector = document.createElement("select");
+              selector.name = 'level'+i;
+              allSpells.push(selector);
+              selector.addEventListener("change",(event)=>{
+                let spellSpace = document.getElementById("spellsSecret");
+                spellSpace.value = "";
+                allSpells.forEach((element)=>{
+                  spellSpace.value+=element.value + ",";
+                });
+
+              });
+              characterClass.spell_choices[i].forEach((spell) => {
+                option = document.createElement("option");
+                option.value = spell;
+                option.innerHTML = spell;
+                selector.appendChild(option);
+              });
+              spaces[i].appendChild(selector);
+            }
+
+          };
+        }
+        else{
+          spaces.forEach((element)=>{
+            element.style.display = "none";
+          });
+          document.getElementById("spellLabel").style.display = "none";
+        }
+      }
+
+      function createClassBuffs(){
+        let space = document.getElementById("classBased");
+        space.innerHTML = "";
+        space.innerHTML += "<p>Hit Dice: " + characterClass.hit_dice + " </p>"
+        let selector;
+        let option;
+        characterClass.level_buffs.forEach((element)=>{
+          if(element.level <= level){
+            if(element.options != null){
+              selector = document.createElement("select");
+              element.options.forEach((fetched)=>{
+                // console.log(fetched);
+                option = document.createElement("option");
+                option.value = fetched.name;
+                option.innerHTML = fetched.name + " (" + fetched.description + ")";
+                selector.appendChild(option);
+              });
+            }
+            else{
+              selector = document.createElement("p");
+              selector.innerHTML = element.name + " (" + element.description + ")";
+            }
+            space.appendChild(selector);
+          }
+        });
+      }
+
+    </script>
+
+  <script type="text/javascript">
+    document.getElementById("raceSelector").addEventListener("change",(event)=>{
+      pickRace(event.srcElement.value);
+    });
+    document.getElementById("classSelector").addEventListener("change",(event)=>{
+      pickClass(event.srcElement.value);
+    });
+  </script>
+
+  </body>
+</html>
