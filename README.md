@@ -1,5 +1,5 @@
 # Dungeon Master
-Play through procedurally generated dungeons.
+Play through procedurally generated dungeons. (Built in January, 2019)
 
 ## Installation
 Clone the repo to your local environment:
